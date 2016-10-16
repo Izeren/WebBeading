@@ -6,13 +6,12 @@ using Emgu.CV;
 
 namespace WebBeading
 {
-    public class Layer
+    public class Layer : ILayer
     {
-        private LayerOptions options;
+        public LayerOptions options { get; set; }
+        public Mat image { get; private set; }
 
-        private Mat image { get; }
-
-    public Layer(Mat image)
+        public Layer(Mat image)
         {
             this.image = image;
         }
@@ -26,11 +25,6 @@ namespace WebBeading
         {
             this.options = options;
             this.image = ImageProcessing.bixilizeImage(image, options);
-        }
-
-    public Mat getImage()
-        {
-            return image;
         }
     }
 }

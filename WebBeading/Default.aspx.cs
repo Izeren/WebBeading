@@ -5,6 +5,9 @@ using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 using System.Web.ModelBinding;
+using Emgu.CV;
+using Emgu.CV.CvEnum;
+
 
 namespace WebBeading
 {
@@ -14,11 +17,36 @@ namespace WebBeading
         {
             if (IsPostBack)
             {
-                CanvasOptionsRequest request = new CanvasOptionsRequest();
+                CanvasOptionsRequest rsvp = new CanvasOptionsRequest();
 
-                if (TryUpdateModel(request, new FormValueProvider(ModelBindingExecutionContext)))
+                if (TryUpdateModel(rsvp, new FormValueProvider(ModelBindingExecutionContext)))
                 {
-                    Console.WriteLine("Hello world!\n");
+                    Repository.GetRepository().AddResponse(rsvp);
+                    if (rsvp.pathToTheImage == "" || rsvp.pathToTheImage == null)
+                    {
+                        Response.Redirect(@"/Content/respond.html");
+                    }
+                    else
+                    {
+                        string path = rsvp.pathToTheImage;
+                        Mat image = new Mat(path, LoadImageType.Color);
+                        LayerOptions options = new LayerOptions(
+                            rsvp.width,
+                            rsvp.height,
+                            rsvp.bixelWidth,
+                            rsvp.bixelHeight,
+                            WaysOfBixelColorDefinition.ClosestFromPaletteToAverage,
+                            new Palette()
+                        );
+                        Console.WriteLine("{0}", rsvp.width);
+                        Console.WriteLine("{0}", rsvp.height);
+                        Console.WriteLine("{0}", rsvp.bixelWidth);
+                        Console.WriteLine("{0}", rsvp.bixelHeight);
+                        Layer layer = new Layer(image, options);
+                        Mat newImage = layer.image;
+                        //CvInvoke.Imwrite("temp.jpg", newImage, 1);
+                        //Response.Redirect(@"/Content/respond.html");
+                    }
                 }
             }
         }

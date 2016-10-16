@@ -9,21 +9,40 @@ namespace WebBeading
 {
     public class PaletteColor : IPaletteColor
     {
-        private int RGB { set; get; }
+        private int []RGB { set; get; }
 
         public PaletteColor()
         {
-            RGB = 0;
+            RGB = new int[]{ 0, 0, 0 };
+        }
+
+        public PaletteColor(int[] RGB)
+        {
+            this.RGB = RGB;
+        }
+        public PaletteColor(int red, int green, int blue)
+        {
+            RGB[0] = red;
+            RGB[1] = green;
+            RGB[2] = blue;
         }
 
         public PaletteColor(int RGB)
         {
-            this.RGB = RGB;
+            int colorId = 2;
+            while (RGB != 0)
+            {
+                this.RGB[colorId] = RGB % 256;
+                RGB /= 256;
+                --colorId;
+            }
         }
 
-        public PaletteColor(int red, int green, int blue)
+        public PaletteColor(byte[] BGR)
         {
-            this.RGB = (red << 16) + (green << 8) + blue;
+            this.RGB[0] = BGR[2];
+            this.RGB[1] = BGR[1];
+            this.RGB[2] = BGR[0];
         }
 
         /**
@@ -33,7 +52,15 @@ namespace WebBeading
          */
         public int getRGB()
         {
-            return RGB;
+            return (this.RGB[0] << 16) + (this.RGB[1] << 8) + this.RGB[2];
+        }
+
+        /**
+         * Returss integer value of BGR color.
+         */
+        public int getBGR()
+        {
+            return (this.RGB[2] << 16) + (this.RGB[1] << 8) + this.RGB[0];
         }
 
         /**
@@ -77,11 +104,7 @@ namespace WebBeading
          */
         public int[] getRGBArray()
         {
-            int[] array = new int[3];
-            array[0] = (RGB >> 16) & 0xFF;
-            array[1] = (RGB >> 8) & 0xFF;
-            array[2] = RGB & 0xFF;
-            return array;
+            return this.RGB;
         }
 
         public static int[] getRGBArray(int RGB)
@@ -101,7 +124,7 @@ namespace WebBeading
          * @param RGB
          * @return (r1 - r2) ^ 2 + (g1 - g2) ^ 2 + (b1 - b2) ^ 2.
          */
-    public int getDelta(int RGB)
+        public int getRGBDelta(int RGB)
         {
             int[] current = this.getRGBArray();
             int[] other = PaletteColor.getRGBArray(RGB);
@@ -114,5 +137,11 @@ namespace WebBeading
 
             return delta;
         }
+
+        public int getRGBDelta(IPaletteColor color)
+        {
+            return getRGBDelta(color.getRGB());
+        }
     }
+
 }

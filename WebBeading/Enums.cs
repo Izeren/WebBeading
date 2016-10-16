@@ -6,6 +6,8 @@ using System.Web;
 namespace WebBeading
 {
     public enum WaysOfBixelColorDefinition {
-        MostPopularOfClosestToPalette, ClosestFromPaletteToAverage
+        MostPopularOfClosestToPalette,
+        ClosestFromPaletteToAverage, 
+        ClosestFromPaletteToMedian
     }
 }

@@ -87,27 +87,29 @@ namespace WebBeading
          * @return Reference to the closest color, or null if there is
          * no any color in the palette.
          */
-        public IPaletteColor getClosest(int RGB)
+        public IPaletteColor getClosest(IPaletteColor color)
         {
             if (colors.Count == 0)
             {
                 return null;
             }
             else {
-                int delta = colors[0].getDelta(RGB);
+                int delta = colors[0].getRGBDelta(color);
                 IPaletteColor currentClosest = colors[0];
-                foreach (IPaletteColor color in colors)
+                foreach (IPaletteColor paletteColor in colors)
                 {
-                    int currentDelta = color.getDelta(RGB);
+                    int currentDelta = paletteColor.getRGBDelta(color);
                     if (currentDelta < delta)
                     {
-                        currentClosest = color;
+                        currentClosest = paletteColor;
                         delta = currentDelta;
                     }
                 }
                 return currentClosest;
             }
         }
+
+        public IPaletteColor fastGetClosest(int RGB) { return new PaletteColor();  }
 
         /**
          * Returns the array of colors of the palette.
@@ -118,7 +120,7 @@ namespace WebBeading
 
             int size = this.colors.Count;
             IPaletteColor[] colors = new IPaletteColor[size];
-            Object[] temp = this.colors.ToArray<Object>();
+            object[] temp = this.colors.ToArray<object>();
             for (int i = 0; i < size; ++i)
             {
                 colors[i] = (IPaletteColor)temp[i];

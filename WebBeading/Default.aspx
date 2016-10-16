@@ -21,13 +21,13 @@
             <label>Height:</label><input type="number", id="height"/>
         </div>
         <div>
-            <label>BixelWidth:</label><input type="number", id="bixelWidth"/>
+            <label>BixelWidth:</label><input type="number", id="bixelwidth"/>
         </div>
         <div>
-            <label>BixelHeight:</label><input type="number", id="bixelHeight"/>
+            <label>BixelHeight:</label><input type="number", id="bixelheight"/>
         </div>
         <div>
-            <label>PathToTheImage:</label><input type="text", id="imagePath"/>
+            <label>PathToTheImage:</label><input type="text", id="pathtotheimage"/>
         </div>
         <div>
             <button type="submit"> Load the image </button>

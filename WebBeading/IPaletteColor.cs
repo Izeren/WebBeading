@@ -51,7 +51,9 @@ namespace WebBeading
          * @param RGB
          * @return (r1 - r2) ^ 2 + (g1 - g2) ^ 2 + (b1 - b2) ^ 2.
          */
-        int getDelta(int RGB);
+        int getRGBDelta(int RGB);
+
+        int getRGBDelta(IPaletteColor color);
 
     }
 }
